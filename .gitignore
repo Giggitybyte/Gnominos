@@ -328,3 +328,7 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# Solution Specific Files
+Gnominos.sln
+Gnominos.Testing*
