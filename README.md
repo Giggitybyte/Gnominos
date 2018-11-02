@@ -10,7 +10,9 @@ This library was originally supposed to be a 1:1 port of the Python wrapper [piz
 Soon™
 
 ## Questions and Help
-If you can't figure something out after going through Intellisense and the quick start guide above, feel free to contact me through Discord: `thegiggitybyte#8099`
+Having difficulty figuring out how to do something? If you're still hitting a snag after thoroughly going through Intellisense and the quick start guide above, open up an issue and I'll attempt to help. You can also contact me through Discord: `thegiggitybyte#8099`.
+
+Likewise, if you've found a bug or feel like something is missing, feel free to open up an issue and I'll look into it.
 
 ## Contributing
 Soon™
