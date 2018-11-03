@@ -1,5 +1,9 @@
 ﻿Namespace Entities
-    Public Class Coupon
+
+    ''' <summary>
+    ''' Representation of a Dominos Coupon
+    ''' </summary>
+    Public NotInheritable Class DominosCoupon
         Public ReadOnly Property Code As String
         Public ReadOnly Property Quantity As Integer
         Public ReadOnly Property Id As Integer

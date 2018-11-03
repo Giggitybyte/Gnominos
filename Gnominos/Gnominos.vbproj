@@ -3,6 +3,32 @@
   <PropertyGroup>
     <RootNamespace>Gnominos</RootNamespace>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <OptionStrict>On</OptionStrict>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>thegiggitybyte</Authors>
+    <Company>thegiggitybyte</Company>
+    <Product />
+    <PackageProjectUrl>https://github.com/Giggitybyte/Gnominos</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Giggitybyte/Gnominos</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/Giggitybyte/Gnominos/blob/development/LICENSE</PackageLicenseUrl>
+    <Version>0.1.0.0</Version>
+    <Description>A .Net Core library for the Dominos API</Description>
+    <Copyright>Copyright © 2018 Luke Triano</Copyright>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn />
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
 
 </Project>
