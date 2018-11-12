@@ -28,7 +28,7 @@ Namespace Entities
         ''' <summary>
         ''' The customer's phone number.
         ''' </summary>
-        ''' <returns>A hyphenated <see cref="String"/> containing a phone number.</returns>
+        ''' <returns>A <see cref="String"/> containing a phone number.</returns>
         Public ReadOnly Property PhoneNumber As String
 
         ''' <summary>
@@ -58,23 +58,14 @@ Namespace Entities
         ''' <summary>
         ''' The country of the customer's address.
         ''' </summary>
-        ''' <returns>A <see cref="ValidCountry"/>.</returns>
-        Public ReadOnly Property Country As ValidCountry
+        ''' <returns>A <see cref="DominosCountry"/>.</returns>
+        Public ReadOnly Property Country As DominosCountry
 
         ''' <summary>
         ''' Creates a new instance of a <see cref="DominosCustomer"/>.
         ''' </summary>
         Sub New(firstName As String, lastName As String, email As String, phoneNumber As String,
-                streetAddress As String, region As String, postalCode As String, country As ValidCountry)
-
-            Throw New NotImplementedException
-        End Sub
-
-        ''' <summary>
-        ''' Creates a new instance of a <see cref="DominosCustomer"/>.
-        ''' </summary>
-        Sub New(firstName As String, lastName As String, email As String, phoneNumber As String,
-                streetAddress As String, region As String, postalCode As String, country As ValidCountry)
+                streetAddress As String, region As String, postalCode As String, country As DominosCountry)
 
             Throw New NotImplementedException
         End Sub
@@ -84,9 +75,17 @@ Namespace Entities
         ''' </summary>
         Sub New(firstName As String, lastName As String, email As String,
                 phoneNumber As String, streetAddress As String, unit As String,
-                region As String, postalCode As String, country As ValidCountry)
+                region As String, postalCode As String, country As DominosCountry)
 
             Throw New NotImplementedException
         End Sub
+
+        ''' <summary>
+        ''' Retreves stores near this <see cref="DominosCustomer"/>.
+        ''' </summary>
+        ''' <returns>A list of <see cref="DominosStore"/>.</returns>
+        Public Function GetNearbyStores() As IReadOnlyList(Of DominosStore)
+            Throw New NotImplementedException
+        End Function
     End Class
 End Namespace

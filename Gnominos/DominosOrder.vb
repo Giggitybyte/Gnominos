@@ -28,28 +28,32 @@ Public NotInheritable Class DominosOrder
     ''' <summary>
     ''' How this <see cref="DominosOrder"/> will be fulfilled.
     ''' </summary>
-    ''' <returns>A <see cref="ServiceMethod"/> enum.</returns>
-    Public ReadOnly Property Type As ServiceMethod
+    ''' <returns>A <see cref="DominosServiceMethod"/> enum.</returns>
+    Public ReadOnly Property ServiceMethod As DominosServiceMethod
 
     ''' <summary>
-    ''' A list of the items to be ordered.
+    ''' The items to be sent to the associated <see cref="DominosStore"/> for fulfillment.
     ''' </summary>
     ''' <returns>An <see cref="IReadOnlyList(Of DominosItem)"/></returns>
     Public ReadOnly Property Items As IReadOnlyList(Of DominosItem)
 
     ''' <summary>
-    ''' Creates a new instance of a <see cref="DominosOrder"/>. 
-    ''' <para>The closest store to the <see cref="DominosCustomer"/> will be selected to fulfill this new <see cref="DominosOrder"/>.</para>
+    ''' Creates a new instance of a <see cref="DominosOrder"/>.
+    ''' <para>The closest store to the <see cref="DominosCustomer"/> will be selected to fulfill this new <see cref="DominosOrder"/>. This overload supports both delivery and carryout service methods; delivery is the default.</para>
     ''' </summary>
-    Sub New(customer As DominosCustomer, orderType As ServiceMethod)
+    Sub New(customer As DominosCustomer, Optional orderType As DominosServiceMethod = DominosServiceMethod.DELIVERY)
+        _ServiceMethod = orderType
+
         Throw New NotImplementedException
     End Sub
 
     ''' <summary>
     ''' Creates a new instance of a <see cref="DominosOrder"/>. 
-    ''' <para>The <see cref="DominosStore"/> that is passed in will be the store to fulfill this new <see cref="DominosOrder"/>.</para>
+    ''' <para>The <see cref="DominosStore"/> that is passed in will be the store to fulfill this new <see cref="DominosOrder"/>. The service method will be carryout; delivery is not supported with this overload.</para>
     ''' </summary>
-    Sub New(customer As DominosCustomer, store As DominosStore, orderType As ServiceMethod)
+    Sub New(customer As DominosCustomer, store As DominosStore)
+        _ServiceMethod = DominosServiceMethod.CARRYOUT
+
         Throw New NotImplementedException
     End Sub
 
@@ -65,10 +69,26 @@ Public NotInheritable Class DominosOrder
     ''' <summary>
     ''' Remove an item from this <see cref="DominosOrder"/>.
     ''' </summary>
-    ''' <param name="item">Any <see cref="DominosItem"/> from <see cref="Items"/>.</param>
+    ''' <param name="item">Any <see cref="DominosItem"/> from <see cref="DominosOrder.Items"/>.</param>
     ''' <returns>A <see cref="Boolean"/> indicating if this action was successful.</returns>
     Public Function Remove(item As DominosItem) As Boolean
         Throw New NotImplementedException
     End Function
 
+    ''' <summary>
+    ''' Submits this <see cref="DominosOrder"/> to the selected <see cref="DominosStore"/> for fulfillment.
+    ''' </summary>
+    ''' <returns>A <see cref="DominosTrackerData"/> object which contains information about the fulfillment of the order.</returns>
+    Public Function Place() As DominosTrackerData
+        Throw New NotImplementedException
+    End Function
+
+    ''' <summary>
+    ''' Retrieves tracking information for an existing order.
+    ''' </summary>
+    ''' <param name="lookupKey">A ten digit, non-hyphenated phone number or an order key.</param>
+    ''' <returns>A <see cref="DominosTrackerData"/> object which contains information about the fulfillment of an order.</returns>
+    Public Shared Function GetTrackerInfo(lookupKey As String) As DominosTrackerData
+        Throw New NotImplementedException
+    End Function
 End Class
