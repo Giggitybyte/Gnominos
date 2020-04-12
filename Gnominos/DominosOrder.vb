@@ -1,94 +1,124 @@
-﻿Imports Gnominos.Entities
-Imports Gnominos.Enums
-
+﻿Imports Gnominos.Enums
+Imports Gnominos.Entities
 
 ''' <summary>
-''' A representation of a Dominos order. This is the primary interface with the API.
+''' An order that'll be fulfilled by a store.
 ''' </summary>
 Public NotInheritable Class DominosOrder
+    Friend _items As List(Of DominosItem)
+    Friend _coupons As List(Of DominosCoupon)
+    Friend _orderKey As String
 
-    ''' <summary>
-    ''' The customer who will be receiving this <see cref="DominosOrder"/>.
-    ''' </summary>
-    ''' <returns>A <see cref="DominosCustomer"/> object.</returns>
-    Public ReadOnly Property Customer As DominosCustomer
+    ''' <summary>Create a new order for the provided store.</summary>
+    ''' <param name="store">The store that will fulfill this order.</param>
+    ''' <param name="customer">The customer that will receive this order.</param>
+    ''' <param name="method">How the customer will receive this order.</param>
+    Public Sub New(store As DominosStore, customer As DominosCustomer, method As DominosServiceMethod)
+        Throw New NotImplementedException
+    End Sub
 
-    ''' <summary>
-    ''' The store that will fulfill this <see cref="DominosOrder"/>.
-    ''' </summary>
-    ''' <returns>A <see cref="DominosStore"/> object.</returns>
+    ''' <summary>The customer that will receive this order.</summary>
+    Public Property Customer As DominosCustomer
+
+    ''' <summary>How the customer will receive this order.</summary>
+    Public Property Method As DominosServiceMethod
+
+    ''' <summary>The store that will be fulfilling this order.</summary>
     Public ReadOnly Property Store As DominosStore
 
-    ''' <summary>
-    ''' The menu for the <see cref="DominosStore"/> assocated with this <see cref="DominosOrder"/>.
-    ''' </summary>
-    ''' <returns>A <see cref="DominosMenu"/> object.</returns>
-    Public ReadOnly Property Menu As DominosMenu
-
-    ''' <summary>
-    ''' How this <see cref="DominosOrder"/> will be fulfilled.
-    ''' </summary>
-    ''' <returns>A <see cref="DominosServiceMethod"/> enum.</returns>
-    Public ReadOnly Property ServiceMethod As DominosServiceMethod
-
-    ''' <summary>
-    ''' The items to be sent to the associated <see cref="DominosStore"/> for fulfillment.
-    ''' </summary>
-    ''' <returns>An <see cref="IReadOnlyList(Of DominosItem)"/></returns>
+    ''' <summary>The contents of this order.</summary>
     Public ReadOnly Property Items As IReadOnlyList(Of DominosItem)
+        Get
+            Return _items.AsReadOnly
+        End Get
+    End Property
 
-    ''' <summary>
-    ''' Creates a new instance of a <see cref="DominosOrder"/>.
-    ''' <para>The closest store to the <see cref="DominosCustomer"/> will be selected to fulfill this new <see cref="DominosOrder"/>. This overload supports both delivery and carryout service methods; delivery is the default.</para>
-    ''' </summary>
-    Sub New(customer As DominosCustomer, Optional orderType As DominosServiceMethod = DominosServiceMethod.DELIVERY)
-        _ServiceMethod = orderType
+    ''' <summary>Coupons that will be used in this order.</summary>
+    Public ReadOnly Property Coupons As IReadOnlyList(Of DominosCoupon)
+        Get
+            Return _coupons.AsReadOnly
+        End Get
+    End Property
 
-        Throw New NotImplementedException
+    ''' <summary>Verifies that the provided item can be ordered at the store associated with this order, then adds it to the list of items.</summary>
+    ''' <param name="item">A valid item from the menu.</param>
+    ''' <exception cref="InvalidOperationException"/><exception cref="ArgumentException"/>
+    Public Function AddItem(item As DominosItem) As Boolean
+        If _orderKey IsNot Nothing Then Throw New InvalidOperationException("This order has been placed.")
+        ' TODO: verify item can be ordered at the store associated with current object.
+    End Function
+
+    ''' <summary> Verifies that the provided coupon can be use at the store associated with this order, then adds it to the list of coupons.</summary>
+    ''' <param name="coupon">A valid coupon object.</param>
+    ''' <exception cref="InvalidOperationException"/><exception cref="ArgumentException"/>
+    Public Sub AddCoupon(coupon As DominosCoupon)
+        If _orderKey IsNot Nothing Then Throw New InvalidOperationException("This order has been placed.")
+        ' TODO: verify coupon is accepted at the store associated with current object.
     End Sub
 
-    ''' <summary>
-    ''' Creates a new instance of a <see cref="DominosOrder"/>. 
-    ''' <para>The <see cref="DominosStore"/> that is passed in will be the store to fulfill this new <see cref="DominosOrder"/>. The service method will be carryout; delivery is not supported with this overload.</para>
-    ''' </summary>
-    Sub New(customer As DominosCustomer, store As DominosStore)
-        _ServiceMethod = DominosServiceMethod.CARRYOUT
+    ''' <summary>Attempts to remove an item from this order. Returns <see langword="True"/> if the provided item was a part of this order.</summary>
+    ''' <param name="item">The item to be removed.</param>
+    Public Function RemoveItem(item As DominosItem) As Boolean
+        If _orderKey IsNot Nothing Then Throw New InvalidOperationException("This order has been placed.")
+        ' TODO: check if item is a part of this order then remove it.
+    End Function
 
-        Throw New NotImplementedException
-    End Sub
+    ''' <summary>Attempts to remove a coupon from this order. Returns <see langword="True"/> if the provided coupon was a part of this order.</summary>
+    ''' <param name="coupon">The coupon to be removed.</param>
+    Public Function RemoveCoupon(coupon As DominosCoupon) As Boolean
+        If _orderKey IsNot Nothing Then Throw New InvalidOperationException("This order has been placed.")
+        ' TODO: check if this coupon is a part of this order then remove it.
+    End Function
 
-    ''' <summary>
-    ''' Add an item to this <see cref="DominosOrder"/>.
-    ''' </summary>
-    ''' <param name="item">Any <see cref="DominosItem"/> from the menu or a custom pizza from the <see cref="DominosPizzaBuilder"/></param>
-    ''' <returns>A <see cref="Boolean"/> indicating if this action was successful.</returns>
-    Public Function Add(item As DominosItem) As Boolean
+    ''' <summary>Returns a breakdown of the total cost of this order.</summary>
+    Public Function CalculateCost() As OrderCost
         Throw New NotImplementedException
     End Function
 
-    ''' <summary>
-    ''' Remove an item from this <see cref="DominosOrder"/>.
-    ''' </summary>
-    ''' <param name="item">Any <see cref="DominosItem"/> from <see cref="DominosOrder.Items"/>.</param>
-    ''' <returns>A <see cref="Boolean"/> indicating if this action was successful.</returns>
-    Public Function Remove(item As DominosItem) As Boolean
-        Throw New NotImplementedException
+    ''' <summary>Verifies that all items and coupons are valid then sends this order off to it's associated store. Returns a <see cref="DominosTracker"/> object.</summary>
+    Public Async Function PlaceAsync() As Task(Of DominosTracker)
+        If _orderKey IsNot Nothing Then Throw New InvalidOperationException("This order has already been placed.")
+        ' Place order, get order key.
     End Function
 
     ''' <summary>
-    ''' Submits this <see cref="DominosOrder"/> to the selected <see cref="DominosStore"/> for fulfillment.
+    ''' A breakdown of the cost for an order.
     ''' </summary>
-    ''' <returns>A <see cref="DominosTrackerData"/> object which contains information about the fulfillment of the order.</returns>
-    Public Function Place() As DominosTrackerData
-        Throw New NotImplementedException
-    End Function
+    Public Structure OrderCost
+        ''' <summary>
+        ''' The monetary sum of all items.
+        ''' </summary>
+        Public ReadOnly Property Items As Decimal
 
-    ''' <summary>
-    ''' Retrieves tracking information for an existing order.
-    ''' </summary>
-    ''' <param name="lookupKey">A ten digit, non-hyphenated phone number or an order key.</param>
-    ''' <returns>A <see cref="DominosTrackerData"/> object which contains information about the fulfillment of an order.</returns>
-    Public Shared Function GetTrackerInfo(lookupKey As String) As DominosTrackerData
-        Throw New NotImplementedException
-    End Function
+        ''' <summary>
+        ''' The superfluous delivery fee to boost Domino's bottom line.
+        ''' </summary>
+        Public ReadOnly Property Delivery As Decimal
+
+        ''' <summary>
+        ''' In applicable states and territories, a monetary deposit (fee) on beverage containers.
+        ''' </summary>
+        Public ReadOnly Property BottleDeposit As Decimal
+
+        ''' <summary>
+        ''' Coupons and other discounts.
+        ''' </summary>
+        Public ReadOnly Property Discounts As Decimal
+
+        ''' <summary>
+        ''' The total cost of all items and fees with coupons and discounts taken into account.
+        ''' </summary>
+        Public ReadOnly Property Total As Decimal
+            Get
+                Return (Items + Delivery + BottleDeposit) - Discounts
+            End Get
+        End Property
+
+        Friend Sub New(items As Decimal, delivery As Decimal, bottle As Decimal, discounts As Decimal)
+            _Items = items
+            _Delivery = delivery
+            _BottleDeposit = bottle
+            _Discounts = discounts
+        End Sub
+    End Structure
 End Class

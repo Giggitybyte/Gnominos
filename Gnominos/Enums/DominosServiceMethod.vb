@@ -1,18 +1,10 @@
 ﻿Namespace Enums
-
-    ''' <summary>
-    ''' A method of service.
-    ''' </summary>
+    ''' <summary>How the customer will receive their order.</summary>
     Public Enum DominosServiceMethod
+        ''' <summary>A Dominos employee will take the order and deliver it to the customer.</summary>
+        Delivery
 
-        ''' <summary>
-        ''' A carryout order.
-        ''' </summary>
-        CARRYOUT
-
-        ''' <summary>
-        ''' A delivery order.
-        ''' </summary>
-        DELIVERY
+        ''' <summary>The customer will go to the store and pick up their order.</summary>
+        CarryOut
     End Enum
 End Namespace

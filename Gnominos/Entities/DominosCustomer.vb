@@ -1,91 +1,59 @@
 ﻿Imports Gnominos.Enums
 
 Namespace Entities
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
     Public NotInheritable Class DominosCustomer
+        ''' <summary>
+        ''' The first name of the customer.<para/>
+        ''' This is required for all orders.
+        ''' </summary>
+        Public Property FirstName As String
 
         ''' <summary>
-        ''' The first name of the customer.
+        ''' The last name of the customer.<para/>
+        ''' This is required for all orders.
         ''' </summary>
-        ''' <returns>A <see cref="String"/> containing a first name.</returns>
-        Public ReadOnly Property FirstName As String
+        Public Property LastName As String
 
         ''' <summary>
-        ''' The last name of the customer.
+        ''' The customer's email address.<para/>
+        ''' This is required for all orders.
         ''' </summary>
-        ''' <returns>A <see cref="String"/> containing a last name.</returns>
-        Public ReadOnly Property LastName As String
+        Public Property Email As String
 
         ''' <summary>
-        ''' The customer's email address.
+        ''' The customer's phone number.<para/>
+        ''' This is required for all orders.
         ''' </summary>
-        ''' <returns>A <see cref="String"/> containing an email address.</returns>
-        Public ReadOnly Property Email As String
+        Public Property PhoneNumber As String
 
         ''' <summary>
-        ''' The customer's phone number.
+        ''' The customer's street address.<para/>
+        ''' Required for delivery orders.
         ''' </summary>
-        ''' <returns>A <see cref="String"/> containing a phone number.</returns>
-        Public ReadOnly Property PhoneNumber As String
+        Public Property StreetAddress As String
 
         ''' <summary>
-        ''' The customer's street address.
+        ''' Either an apartment number or a unit number/code.<para/>
+        ''' Used for delivery orders; can be empty.
         ''' </summary>
-        ''' <returns>A <see cref="String"/> containing a street address.</returns>
-        Public ReadOnly Property StreetAddress As String
+        Public Property Unit As String
 
         ''' <summary>
-        ''' Either an apartment number or a unit number/code. Can be empty.
+        ''' The state or province of the customer's country.<para/>
+        ''' This is required for delivery orders.
         ''' </summary>
-        ''' <returns>A <see cref="String"/> containing an apartment number or a unit number/code.</returns>
-        Public ReadOnly Property Unit As String
+        Public Property Region As String
 
         ''' <summary>
-        ''' The state or province of the customer's country.
+        ''' The postal code for the customer's address.<para/>
+        ''' This is required for delivery orders.
         ''' </summary>
-        ''' <returns>A <see cref="String"/> containing a state or province.</returns>
-        Public ReadOnly Property Region As String
+        Public Property PostalCode As String
 
         ''' <summary>
-        ''' The postal code for the customer's address.
+        ''' The country of the customer's address.<para/>
+        ''' This is required for delivery orders.
         ''' </summary>
-        ''' <returns>A <see cref="String"/> containing a postal code.</returns>
-        Public ReadOnly Property PostalCode As String
-
-        ''' <summary>
-        ''' The country of the customer's address.
-        ''' </summary>
-        ''' <returns>A <see cref="DominosCountry"/>.</returns>
-        Public ReadOnly Property Country As DominosCountry
-
-        ''' <summary>
-        ''' Creates a new instance of a <see cref="DominosCustomer"/>.
-        ''' </summary>
-        Sub New(firstName As String, lastName As String, email As String, phoneNumber As String,
-                streetAddress As String, region As String, postalCode As String, country As DominosCountry)
-
-            Throw New NotImplementedException
-        End Sub
-
-        ''' <summary>
-        ''' Creates a new instance of a <see cref="DominosCustomer"/>.
-        ''' </summary>
-        Sub New(firstName As String, lastName As String, email As String,
-                phoneNumber As String, streetAddress As String, unit As String,
-                region As String, postalCode As String, country As DominosCountry)
-
-            Throw New NotImplementedException
-        End Sub
-
-        ''' <summary>
-        ''' Retreves stores near this <see cref="DominosCustomer"/>.
-        ''' </summary>
-        ''' <returns>A list of <see cref="DominosStore"/>.</returns>
-        Public Function GetNearbyStores() As IReadOnlyList(Of DominosStore)
-            Throw New NotImplementedException
-        End Function
+        Public Property Country As DominosCountry
     End Class
 End Namespace
