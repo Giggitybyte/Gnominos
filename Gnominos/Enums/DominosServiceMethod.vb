@@ -5,6 +5,6 @@
         Delivery
 
         ''' <summary>The customer will go to the store and pick up their order.</summary>
-        CarryOut
+        Carryout
     End Enum
 End Namespace

@@ -1,11 +1,11 @@
-﻿Imports System.Net
-Imports System.Timers
+﻿Imports System.Timers
 Imports Gnominos.Enums
+Imports RestSharp
 
 ''' <summary>Checks every two minutes for the status of an order and fires an event when there is a change.</summary>
 Public NotInheritable Class DominosTracker
+    Private Shared _restClient As New RestClient With {.BaseUrl = New Uri("TODO")}
     Private _timer As Timer
-    Private Shared _webClient As New WebClient With {.BaseAddress = "TODO"}
 
     ''' <summary>The order that is being tracked.</summary>
     Public ReadOnly Property Order As DominosOrder

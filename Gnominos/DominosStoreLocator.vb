@@ -1,45 +1,59 @@
-﻿Imports System.Net
-Imports Gnominos.Enums
+﻿Imports Gnominos.Enums
 Imports Gnominos.Entities
+Imports RestSharp
+Imports RestSharp.Serializers.NewtonsoftJson
+Imports System.Net
+Imports Gnominos.Internal.Responses
 
 Public NotInheritable Class DominosStoreLocator
-    Private Shared _webClient As New WebClient With {.BaseAddress = "TODO"}
+    Private Const BaseUrl As String = "https://order.dominos.com/power/store-locator"
+    Private ReadOnly _restClient As RestClient
 
-    ''' <summary>Returns the closest store within 25 miles of a customer.</summary>
-    ''' <param name="address">A <see cref="DominosCustomer"/> object.</param>
-    Public Shared Async Function GetClosestStoreAsync(address As DominosCustomer) As Task(Of DominosStore)
-        Throw New NotImplementedException
+    Public Sub New()
+        _restClient = New RestClient
+        _restClient.UseNewtonsoftJson()
+    End Sub
+
+    ''' <summary>Returns up to 10 stores near a customer's address.</summary>
+    ''' <param name="customer">A <see cref="DominosCustomer"/> object with a valid address to base the search off of.</param>
+    Public Async Function GetStoresAsync(customer As DominosCustomer) As Task(Of IReadOnlyList(Of DominosStore))
+        Dim address = WebUtility.UrlEncode($"{customer.StreetAddress}{If($" {customer.Unit}", "")}")
+        Dim postalCode = WebUtility.UrlEncode(customer.PostalCode)
+
+        Dim request As New RestRequest($"{BaseUrl}?s={address}&c={postalCode}", Method.GET)
+        Dim response = Await _restClient.ExecuteAsync(Of LocatorResponse)(request).ConfigureAwait(False)
+
+        If Not response.StatusCode = HttpStatusCode.OK Then Return Nothing
+        Return response.Data.Stores
+    End Function
+
+    ''' <summary>Returns up to 10 stores near a postal code.</summary>
+    ''' <param name="postalCode">A postal/zip code to base the search off of.</param>
+    Public Async Function GetStoresAsync(postalCode As String) As Task(Of IReadOnlyList(Of DominosStore))
+        Dim request As New RestRequest($"{BaseUrl}?c={WebUtility.UrlEncode(postalCode)}", Method.GET)
+        Dim response = Await _restClient.ExecuteAsync(Of LocatorResponse)(request).ConfigureAwait(False)
+
+        If Not response.StatusCode = HttpStatusCode.OK Then Return Nothing
+        Return response.Data.Stores
+    End Function
+
+    ''' <summary>Returns the store closest to a customer's address.</summary>
+    ''' <param name="customer">A <see cref="DominosCustomer"/> object with a valid address to base the search off of.</param>
+    Public Async Function GetClosestStoreAsync(customer As DominosCustomer) As Task(Of DominosStore)
+        Return (Await GetStoresAsync(customer).ConfigureAwait(False)).FirstOrDefault
     End Function
 
 
-    ''' <summary>Returns the closest store within 25 miles of a set of coordinates.</summary>
-    ''' <param name="latitude">Latitude coordinate.</param>
-    ''' <param name="longitude">Longitude coordinate.</param>
-    Public Shared Async Function GetClosestStoreAsync(latitude As Double, longitude As Double) As Task(Of DominosStore)
-        Throw New NotImplementedException
-    End Function
-
-    ''' <summary>Returns up to 25 stores within 25 miles of a customer.</summary>
-    ''' <param name="address">A <see cref="DominosCustomer"/> object.</param>
-    Public Shared Async Function GetStoresAsync(address As DominosCustomer) As Task(Of IReadOnlyList(Of DominosStore))
-        Throw New NotImplementedException
-    End Function
-
-    ''' <summary>Returns up to 25 stores within 25 miles of a set of coordinates.</summary>
-    ''' <param name="latitude">Latitude coordinate.</param>
-    ''' <param name="longitude">Longitude coordinate.</param>
-    Public Shared Async Function GetStoresAsync(latitude As Double, longitude As Double) As Task(Of IReadOnlyList(Of DominosStore))
-        Throw New NotImplementedException
+    ''' <summary>Returns the store closest to the specified postal code.</summary>
+    ''' <param name="postalCode">A zip/postal code to base the search off of.</param>
+    Public Async Function GetClosestStoreAsync(postalCode As String) As Task(Of DominosStore)
+        Return (Await GetStoresAsync(postalCode).ConfigureAwait(False)).FirstOrDefault
     End Function
 
     ''' <summary>Retrieves a specific store using its store number.</summary>
-    ''' <param name="storeNumber">The number of a store.</param>
-    Public Shared Async Function GetStoreAsync(country As DominosCountry, storeNumber As Integer) As Task(Of DominosStore)
-        Throw New NotImplementedException
-    End Function
-
-    ''' <summary>Takes raw JSON and deserializes to a collection of POVO.</summary>
-    Private Shared Function DeserializeStores(json As String) As List(Of DominosStore)
+    ''' <param name="storeNumber">The number for a specific store.</param>
+    ''' <param name="country">The country the store is in.</param>
+    Public Async Function GetStoreAsync(storeNumber As Integer, country As DominosCountry) As Task(Of DominosStore)
         Throw New NotImplementedException
     End Function
 End Class
