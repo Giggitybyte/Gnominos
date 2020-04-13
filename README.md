@@ -1,6 +1,6 @@
 
 # Gnominos [![Discord Server Invite](https://discordapp.com/api/guilds/385375030755983372/embed.png?style=shield)](https://discord.gg/BJfHNYU)
-<img align="Right" src="https://i.imgur.com/ScMj973.png" width="88">
+<img align="Right" src="https://i.imgur.com/ScMj973.png" width="112">
 
 Gnominos is a .Net Core 3.1 library written in Visual Basic that allows for easy interaction with the Dominos Pizza API. 
 
