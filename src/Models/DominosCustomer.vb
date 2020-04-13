@@ -1,6 +1,6 @@
 ﻿Imports Gnominos.Enums
 
-Namespace Entities
+Namespace Models
     Public NotInheritable Class DominosCustomer
         ''' <summary>
         ''' The first name of the customer.<para/>

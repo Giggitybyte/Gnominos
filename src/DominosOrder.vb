@@ -1,5 +1,5 @@
 ﻿Imports Gnominos.Enums
-Imports Gnominos.Entities
+Imports Gnominos.Models
 
 ''' <summary>
 ''' An order that'll be fulfilled by a store.

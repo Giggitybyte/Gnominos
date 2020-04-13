@@ -1,4 +1,4 @@
-﻿Namespace Entities
+﻿Namespace Models
     ''' <summary>
     ''' A Dominos Pizza Profile.
     ''' </summary>

@@ -1,12 +1,12 @@
 ﻿Imports Gnominos.Enums
-Imports Gnominos.Entities
+Imports Gnominos.Models
 Imports RestSharp
 Imports RestSharp.Serializers.NewtonsoftJson
 Imports System.Net
 Imports Gnominos.Internal.Responses
 
 Public NotInheritable Class DominosStoreLocator
-    Private Const BaseUrl As String = "https://order.dominos.com/power/store-locator"
+    Private Const BaseUrl As String = "https://order.dominos.com/power/store"
     Private ReadOnly _restClient As RestClient
 
     Public Sub New()
@@ -20,7 +20,7 @@ Public NotInheritable Class DominosStoreLocator
         Dim address = WebUtility.UrlEncode($"{customer.StreetAddress}{If($" {customer.Unit}", "")}")
         Dim postalCode = WebUtility.UrlEncode(customer.PostalCode)
 
-        Dim request As New RestRequest($"{BaseUrl}?s={address}&c={postalCode}", Method.GET)
+        Dim request As New RestRequest($"{BaseUrl}-locator?s={address}&c={postalCode}", Method.GET)
         Dim response = Await _restClient.ExecuteAsync(Of LocatorResponse)(request).ConfigureAwait(False)
 
         If Not response.StatusCode = HttpStatusCode.OK Then Return Nothing
@@ -30,7 +30,7 @@ Public NotInheritable Class DominosStoreLocator
     ''' <summary>Returns up to 10 stores near a postal code.</summary>
     ''' <param name="postalCode">A postal/zip code to base the search off of.</param>
     Public Async Function GetStoresAsync(postalCode As String) As Task(Of IReadOnlyList(Of DominosStore))
-        Dim request As New RestRequest($"{BaseUrl}?c={WebUtility.UrlEncode(postalCode)}", Method.GET)
+        Dim request As New RestRequest($"{BaseUrl}-locator?c={WebUtility.UrlEncode(postalCode)}", Method.GET)
         Dim response = Await _restClient.ExecuteAsync(Of LocatorResponse)(request).ConfigureAwait(False)
 
         If Not response.StatusCode = HttpStatusCode.OK Then Return Nothing

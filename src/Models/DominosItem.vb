@@ -1,4 +1,4 @@
-﻿Namespace Entities
+﻿Namespace Models
     Public NotInheritable Class DominosItem
 
     End Class

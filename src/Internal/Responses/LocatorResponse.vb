@@ -1,4 +1,4 @@
-﻿Imports Gnominos.Entities
+﻿Imports Gnominos.Models
 Imports Newtonsoft.Json
 
 Namespace Internal.Responses
