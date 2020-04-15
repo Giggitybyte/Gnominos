@@ -76,7 +76,8 @@ Public NotInheritable Class DominosOrder
     End Function
 
     ''' <summary>Verifies that all items and coupons are valid then sends this order off to it's associated store. Returns a <see cref="DominosTracker"/> object.</summary>
-    Public Async Function PlaceAsync() As Task(Of DominosTracker)
+    ''' <param name="payment">A credit or debit card that'll be used to pay for this order.</param>
+    Public Async Function PlaceAsync(payment As DominosCreditCard) As Task(Of DominosTracker)
         If _orderKey IsNot Nothing Then Throw New InvalidOperationException("This order has already been placed.")
         ' Place order, get order key.
     End Function
