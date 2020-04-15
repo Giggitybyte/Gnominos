@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Gnominos</RootNamespace>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OptionStrict>On</OptionStrict>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>thegiggitybyte</Authors>
+    <Company>thegiggitybyte</Company>
+    <Product />
+    <PackageProjectUrl>https://github.com/Giggitybyte/Gnominos</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Giggitybyte/Gnominos</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/Giggitybyte/Gnominos/blob/development/LICENSE</PackageLicenseUrl>
+    <Version>0.1.0</Version>
+    <Description>A .Net Core library for the Dominos API</Description>
+    <Copyright>Copyright © 2020 Luke Triano</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn />
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <DocumentationFile>Gnominos.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <DocumentationFile>Gnominos.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RestSharp" Version="106.10.1" />
+    <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="106.10.1" />
+  </ItemGroup>
+
+</Project>
