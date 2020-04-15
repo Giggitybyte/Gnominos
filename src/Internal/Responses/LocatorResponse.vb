@@ -1,41 +1,45 @@
-﻿Imports Gnominos.Models
-Imports Newtonsoft.Json
+﻿Imports Newtonsoft.Json
 
 Namespace Internal.Responses
-    Public Class LocatorResponse
+    Friend NotInheritable Class LocatorResponse
         <JsonProperty("Status")>
         Public Property Status As Integer
 
         <JsonProperty("Address")>
-        Public Property Address As Address
+        Public Property Address As CustomerAddress
 
         <JsonProperty("Stores")>
-        Public Property Stores As List(Of DominosStore)
-    End Class
+        Public Property Stores As List(Of Store)
 
-    Public Class Address
-        <JsonProperty("Street")>
-        Public Property Street As String
+        Friend NotInheritable Class Store
+            <JsonProperty("StoreID")>
+            Public Property Id As String
+        End Class
 
-        <JsonProperty("StreetNumber")>
-        Public Property StreetNumber As String
+        Friend NotInheritable Class CustomerAddress
+            <JsonProperty("Street")>
+            Public Property Street As String
 
-        <JsonProperty("StreetName")>
-        Public Property StreetName As String
+            <JsonProperty("StreetNumber")>
+            Public Property StreetNumber As String
 
-        <JsonProperty("UnitType")>
-        Public Property UnitType As String
+            <JsonProperty("StreetName")>
+            Public Property StreetName As String
 
-        <JsonProperty("UnitNumber")>
-        Public Property UnitNumber As String
+            <JsonProperty("UnitType")>
+            Public Property UnitType As String
 
-        <JsonProperty("City")>
-        Public Property City As String
+            <JsonProperty("UnitNumber")>
+            Public Property UnitNumber As String
 
-        <JsonProperty("Region")>
-        Public Property Region As String
+            <JsonProperty("City")>
+            Public Property City As String
 
-        <JsonProperty("PostalCode")>
-        Public Property PostalCode As String
+            <JsonProperty("Region")>
+            Public Property Region As String
+
+            <JsonProperty("PostalCode")>
+            Public Property PostalCode As String
+        End Class
     End Class
 End Namespace
