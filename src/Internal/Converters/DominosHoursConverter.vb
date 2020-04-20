@@ -3,7 +3,7 @@ Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 
 Namespace Internal.Converters
-    ''' <summary>Simply converts the funky hour array received from Dominos to a <see cref="ServiceOperatingHours"/> object.</summary>
+    ''' <summary>Simply converts the hours received from Dominos to <see cref="ServiceOperatingHours"/> objects.</summary>
     Friend NotInheritable Class DominosHoursConverter
         Inherits JsonConverter
 
@@ -30,15 +30,17 @@ Namespace Internal.Converters
         Public Overrides Function ReadJson(reader As JsonReader, objectType As Type, existingValue As Object, serializer As JsonSerializer) As Object
             Dim token = JToken.Load(reader)
 
-            If Not token.Type = JTokenType.Array Then Throw New ArgumentException($"Expected an Array, got {token.Type}")
+            If Not token.Type = JTokenType.Object Then
+                Throw New ArgumentException($"Expected an Object, got {token.Type}")
+            End If
 
-            Dim hourStrings = token.ToObject(Of IEnumerable(Of Dictionary(Of String, String))).First
-            Dim hoursObject As New ServiceOperatingHours With {
-                ._openTime = TimeSpan.Parse(hourStrings("OpenTime")),
-                ._closeTime = TimeSpan.Parse(hourStrings("CloseTime"))
+            Dim jsonHours = token.ToObject(Of Dictionary(Of String, String))
+            Dim hours As New ServiceOperatingHours With {
+                ._openTime = TimeSpan.Parse(jsonHours("OpenTime")),
+                ._closeTime = TimeSpan.Parse(jsonHours("CloseTime"))
             }
 
-            Return hoursObject
+            Return hours
         End Function
     End Class
 End Namespace

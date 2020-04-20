@@ -1,5 +1,4 @@
-﻿Imports System.ComponentModel
-Imports Gnominos.Enums
+﻿Imports Gnominos.Enums
 Imports Gnominos.Internal.Converters
 Imports Newtonsoft.Json
 
@@ -22,11 +21,11 @@ Namespace Models
             End Get
         End Property
 
-        ''' <summary>Timezone of this store.</summary>
+        ''' <summary>The current date and time where the store is physically located.</summary>
         <JsonIgnore>
-        Public ReadOnly Property TimeZone As String
+        Public ReadOnly Property StoreTime As Date
             Get
-                Return _timeZone
+                Return Date.UtcNow.AddMinutes(_tzOffsetMinutes)
             End Get
         End Property
 
@@ -70,10 +69,20 @@ Namespace Models
             End Get
         End Property
 
-        ''' <summary>The operating hours for a service method.</summary>
-        ''' <param name="service">The service method to get operating hours for.</param>
+        ''' <summary>The minimum order subtotal required for delivery orders.</summary>
         <JsonIgnore>
-        Public ReadOnly Property Hours(service As DominosServiceMethod) As IReadOnlyDictionary(Of DayOfWeek, ServiceOperatingHours)
+        Public ReadOnly Property DeliveryMinimum As Single
+            Get
+                Return _deliveryMinimum
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Operating hours for a specified service method. All <see cref="TimeSpan"/> from <see cref="ServiceOperatingHours"/> express time-of-day in 24-hour format, with <i>00:00</i> being 12:00 AM.<para/>
+        ''' Some stores are open past midnight and remain open into the next day, e.g. 10:30am-2:00am. As such, if a <see cref="DayOfWeek"/> has more than one set of hours, the first value would be the remaining hours from the previous day.
+        ''' </summary>
+        <JsonIgnore>
+        Public ReadOnly Property Hours(service As DominosServiceMethod) As IReadOnlyDictionary(Of DayOfWeek, IReadOnlyList(Of ServiceOperatingHours))
             Get
                 Select Case service
                     Case DominosServiceMethod.Carryout
@@ -126,8 +135,8 @@ Namespace Models
         <JsonProperty("PreferredCurrency")>
         Friend _currency As String
 
-        <JsonProperty("TimeZoneCode")>
-        Friend _timeZone As String
+        <JsonProperty("TimeZoneMinutes")>
+        Friend _tzOffsetMinutes As Integer
 
         <JsonProperty("Phone")>
         Friend _phoneNumber As String
@@ -145,10 +154,10 @@ Namespace Models
         Friend _isOpen As Boolean
 
         <JsonProperty("ServiceHours.Carryout")>
-        Friend _carryoutHours As Dictionary(Of DayOfWeek, ServiceOperatingHours)
+        Friend _carryoutHours As Dictionary(Of DayOfWeek, IReadOnlyList(Of ServiceOperatingHours))
 
         <JsonProperty("ServiceHours.Delivery")>
-        Friend _deliveryHours As Dictionary(Of DayOfWeek, ServiceOperatingHours)
+        Friend _deliveryHours As Dictionary(Of DayOfWeek, IReadOnlyList(Of ServiceOperatingHours))
 
         <JsonProperty("ServiceMethodEstimatedWaitMinutes.Carryout")>
         Friend _carryoutWaitTime As ServiceWaitTime
@@ -162,10 +171,15 @@ Namespace Models
         <JsonProperty("ServiceIsOpen.Delivery")>
         Friend _isDeliveryOpen As Boolean
 
+        <JsonProperty("MinimumDeliveryOrderAmount")>
+        Friend _deliveryMinimum As Single
+
 #Region "Nested Classes"
 
         ''' <summary>Operating hours for a service method.</summary>
         <JsonArray> Public Class ServiceOperatingHours
+
+            ''' <summary>Opening time; 24-hour based.</summary>
             <JsonIgnore>
             Public ReadOnly Property Open As TimeSpan
                 Get
@@ -173,6 +187,7 @@ Namespace Models
                 End Get
             End Property
 
+            ''' <summary>Closing time; 24-hour based.</summary>
             <JsonIgnore>
             Public ReadOnly Property Close As TimeSpan
                 Get
@@ -211,6 +226,7 @@ Namespace Models
             <JsonProperty("Max")>
             Friend _max As Integer
         End Class
+
 #End Region
 
     End Class
