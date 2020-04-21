@@ -5,6 +5,58 @@ Imports Newtonsoft.Json
 Namespace Models
     <JsonConverter(GetType(JsonPathConverter))>
     Public NotInheritable Class DominosStore
+
+#Region "Backing Fields"
+        <JsonProperty("StoreID")>
+        Friend _id As Integer
+
+        <JsonProperty("PreferredLanguage")>
+        Friend _language As String
+
+        <JsonProperty("PreferredCurrency")>
+        Friend _currency As String
+
+        <JsonProperty("TimeZoneMinutes")>
+        Friend _tzOffsetMinutes As Integer
+
+        <JsonProperty("Phone")>
+        Friend _phoneNumber As String
+
+        <JsonProperty("AddressDescription")>
+        Friend _address As String
+
+        <JsonProperty("AllowCarryoutOrders")>
+        Friend _acceptsCarryout As Boolean
+
+        <JsonProperty("AllowDeliveryOrders")>
+        Friend _acceptsDelivery As Boolean
+
+        <JsonProperty("IsOpen")>
+        Friend _isOpen As Boolean
+
+        <JsonProperty("ServiceHours.Carryout")>
+        Friend _carryoutHours As Dictionary(Of DayOfWeek, IReadOnlyList(Of ServiceOperatingHours))
+
+        <JsonProperty("ServiceHours.Delivery")>
+        Friend _deliveryHours As Dictionary(Of DayOfWeek, IReadOnlyList(Of ServiceOperatingHours))
+
+        <JsonProperty("ServiceMethodEstimatedWaitMinutes.Carryout")>
+        Friend _carryoutWaitTime As ServiceWaitTime
+
+        <JsonProperty("ServiceMethodEstimatedWaitMinutes.Delivery")>
+        Friend _deliveryWaitTime As ServiceWaitTime
+
+        <JsonProperty("ServiceIsOpen.Carryout")>
+        Friend _isCarryoutOpen As Boolean
+
+        <JsonProperty("ServiceIsOpen.Delivery")>
+        Friend _isDeliveryOpen As Boolean
+
+        <JsonProperty("MinimumDeliveryOrderAmount")>
+        Friend _deliveryMinimum As Single
+#End Region
+
+#Region "User Facing Properties"
         ''' <summary>The ID of this store.</summary>
         <JsonIgnore>
         Public ReadOnly Property Id As Integer
@@ -125,57 +177,9 @@ Namespace Models
                 End Select
             End Get
         End Property
-
-        <JsonProperty("StoreID")>
-        Friend _id As Integer
-
-        <JsonProperty("PreferredLanguage")>
-        Friend _language As String
-
-        <JsonProperty("PreferredCurrency")>
-        Friend _currency As String
-
-        <JsonProperty("TimeZoneMinutes")>
-        Friend _tzOffsetMinutes As Integer
-
-        <JsonProperty("Phone")>
-        Friend _phoneNumber As String
-
-        <JsonProperty("AddressDescription")>
-        Friend _address As String
-
-        <JsonProperty("AllowCarryoutOrders")>
-        Friend _acceptsCarryout As Boolean
-
-        <JsonProperty("AllowDeliveryOrders")>
-        Friend _acceptsDelivery As Boolean
-
-        <JsonProperty("IsOpen")>
-        Friend _isOpen As Boolean
-
-        <JsonProperty("ServiceHours.Carryout")>
-        Friend _carryoutHours As Dictionary(Of DayOfWeek, IReadOnlyList(Of ServiceOperatingHours))
-
-        <JsonProperty("ServiceHours.Delivery")>
-        Friend _deliveryHours As Dictionary(Of DayOfWeek, IReadOnlyList(Of ServiceOperatingHours))
-
-        <JsonProperty("ServiceMethodEstimatedWaitMinutes.Carryout")>
-        Friend _carryoutWaitTime As ServiceWaitTime
-
-        <JsonProperty("ServiceMethodEstimatedWaitMinutes.Delivery")>
-        Friend _deliveryWaitTime As ServiceWaitTime
-
-        <JsonProperty("ServiceIsOpen.Carryout")>
-        Friend _isCarryoutOpen As Boolean
-
-        <JsonProperty("ServiceIsOpen.Delivery")>
-        Friend _isDeliveryOpen As Boolean
-
-        <JsonProperty("MinimumDeliveryOrderAmount")>
-        Friend _deliveryMinimum As Single
+#End Region
 
 #Region "Nested Classes"
-
         ''' <summary>Operating hours for a service method.</summary>
         <JsonArray> Public Class ServiceOperatingHours
 
@@ -226,7 +230,6 @@ Namespace Models
             <JsonProperty("Max")>
             Friend _max As Integer
         End Class
-
 #End Region
 
     End Class
