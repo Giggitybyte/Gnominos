@@ -2,7 +2,7 @@
 Imports Gnominos.Internal.Converters
 Imports Newtonsoft.Json
 
-Namespace Models
+Namespace Entities
     <JsonConverter(GetType(JsonPathConverter))>
     Public NotInheritable Class DominosStore
 

@@ -1,4 +1,4 @@
-﻿Namespace Models
+﻿Namespace Entities
     Public NotInheritable Class DominosCustomer
         ''' <summary>The first name of the customer.</summary>
         Public Property FirstName As String

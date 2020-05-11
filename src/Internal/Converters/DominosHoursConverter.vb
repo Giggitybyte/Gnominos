@@ -1,4 +1,4 @@
-﻿Imports Gnominos.Models.DominosStore
+﻿Imports Gnominos.Entities.DominosStore
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 

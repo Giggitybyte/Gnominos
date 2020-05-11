@@ -1,5 +1,5 @@
 ﻿Imports Gnominos.Enums
-Imports Gnominos.Models
+Imports Gnominos.Entities
 Imports RestSharp
 Imports RestSharp.Serializers.NewtonsoftJson
 Imports System.Net

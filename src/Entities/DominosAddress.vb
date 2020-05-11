@@ -1,6 +1,6 @@
 ﻿Imports Gnominos.Enums
 
-Namespace Models
+Namespace Entities
     ''' <summary>A represenation of an address for a Dominos customer.</summary>
     Public NotInheritable Class DominosAddress
 
