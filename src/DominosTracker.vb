@@ -2,7 +2,7 @@
 Imports Gnominos.Enums
 Imports RestSharp
 
-''' <summary>Checks every two minutes for the status of an order and fires an event when there is a change.</summary>
+''' <summary>Checks the status of an order every two minutes and fires an event when there is an update.</summary>
 Public NotInheritable Class DominosTracker
     Private Shared _restClient As New RestClient With {.BaseUrl = New Uri("TODO")}
     Private _timer As Timer

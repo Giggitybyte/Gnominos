@@ -46,12 +46,6 @@ Namespace Models
         <JsonProperty("ServiceMethodEstimatedWaitMinutes.Delivery")>
         Friend _deliveryWaitTime As ServiceWaitTime
 
-        <JsonProperty("ServiceIsOpen.Carryout")>
-        Friend _isCarryoutOpen As Boolean
-
-        <JsonProperty("ServiceIsOpen.Delivery")>
-        Friend _isDeliveryOpen As Boolean
-
         <JsonProperty("MinimumDeliveryOrderAmount")>
         Friend _deliveryMinimum As Single
 #End Region
@@ -162,25 +156,10 @@ Namespace Models
                 End Select
             End Get
         End Property
-
-        ''' <summary>Whether or not a service method is currently open and available at this store.</summary>
-        <JsonIgnore>
-        Public ReadOnly Property ServiceAvailability(service As DominosServiceMethod) As Boolean
-            Get
-                Select Case service
-                    Case DominosServiceMethod.Carryout
-                        Return _isCarryoutOpen
-                    Case DominosServiceMethod.Delivery
-                        Return _isDeliveryOpen
-                    Case Else
-                        Return Nothing
-                End Select
-            End Get
-        End Property
 #End Region
 
 #Region "Nested Classes"
-        ''' <summary>Operating hours for a service method.</summary>
+        ''' <summary>Opening and closing times.</summary>
         <JsonArray> Public Class ServiceOperatingHours
 
             ''' <summary>Opening time; 24-hour based.</summary>
@@ -206,7 +185,7 @@ Namespace Models
             Friend _closeTime As TimeSpan
         End Class
 
-        ''' <summary>Estimated wait time for a service method.</summary>
+        ''' <summary>Estimated wait times.</summary>
         Public Class ServiceWaitTime
             ''' <summary>The minimum amount of time it'd take to fulfill an order.</summary>
             <JsonIgnore>

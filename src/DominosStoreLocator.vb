@@ -22,18 +22,18 @@ Public NotInheritable Class DominosStoreLocator
     End Sub
 
     ''' <summary>Returns up to 10 stores near a customer's address.</summary>
-    ''' <param name="customer">A <see cref="DominosCustomer"/> object with a valid address to base the search off of.</param>
-    Public Async Function GetStoresAsync(customer As DominosCustomer) As Task(Of IReadOnlyList(Of DominosStore))
-        Dim address = WebUtility.UrlEncode($"{customer.StreetAddress}{If($" {customer.Unit}", "")}")
-        Dim postalCode = WebUtility.UrlEncode(customer.PostalCode)
+    ''' <param name="address">A <see cref="DominosAddress"/> object with a valid address to base the search off of.</param>
+    Public Async Function GetStoresAsync(address As DominosAddress) As Task(Of IReadOnlyList(Of DominosStore))
+        Dim custAddress = WebUtility.UrlEncode($"{address.StreetAddress}{If($" {address.Unit}", "")}")
+        Dim postalCode = WebUtility.UrlEncode(address.PostalCode)
 
-        Return Await GetStoresAsync(New Uri($"{_urls.Locator}?s={address}&c={postalCode}")).ConfigureAwait(False)
+        Return Await GetStoresAsync(New Uri($"{_urls.LocatorUrl}?s={custAddress}&c={postalCode}")).ConfigureAwait(False)
     End Function
 
     ''' <summary>Returns up to 10 stores near a postal code.</summary>
     ''' <param name="postalCode">A postal/zip code to base the search off of.</param>
     Public Async Function GetStoresAsync(postalCode As String) As Task(Of IReadOnlyList(Of DominosStore))
-        Return Await GetStoresAsync(New Uri($"{_urls.Locator}?c={WebUtility.UrlEncode(postalCode)}")).ConfigureAwait(False)
+        Return Await GetStoresAsync(New Uri($"{_urls.LocatorUrl}?c={WebUtility.UrlEncode(postalCode)}")).ConfigureAwait(False)
     End Function
 
     ''' <summary>Retrieves dominos store IDs via the store locator endpoint, then gets a collection of <see cref="DominosStore"/> objects from the store profile endpoint.</summary>
@@ -54,9 +54,9 @@ Public NotInheritable Class DominosStoreLocator
     End Function
 
     ''' <summary>Returns the store closest to a customer's address.</summary>
-    ''' <param name="customer">A <see cref="DominosCustomer"/> object with a valid address to base the search off of.</param>
-    Public Async Function GetClosestStoreAsync(customer As DominosCustomer) As Task(Of DominosStore)
-        Return (Await GetStoresAsync(customer).ConfigureAwait(False)).FirstOrDefault
+    ''' <param name="address">A <see cref="DominosAddress"/> object with a valid address to base the search off of.</param>
+    Public Async Function GetClosestStoreAsync(address As DominosAddress) As Task(Of DominosStore)
+        Return (Await GetStoresAsync(address).ConfigureAwait(False)).FirstOrDefault
     End Function
 
     ''' <summary>Returns the store closest to the specified postal code.</summary>
@@ -68,7 +68,7 @@ Public NotInheritable Class DominosStoreLocator
     ''' <summary>Retrieves a specific store using its store number.</summary>
     ''' <param name="storeId">The ID of a specific store.</param>
     Public Async Function GetStoreAsync(storeId As String) As Task(Of DominosStore)
-        Dim request As New RestRequest(_urls.Store.Replace("[STOREID]", storeId), Method.GET)
+        Dim request As New RestRequest(_urls.StoreUrl(storeId), Method.GET)
         Dim response = Await _restClient.ExecuteAsync(Of DominosStore)(request).ConfigureAwait(False)
 
         If Not response.StatusCode = HttpStatusCode.OK Then Return Nothing

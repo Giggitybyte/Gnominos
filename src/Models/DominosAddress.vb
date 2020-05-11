@@ -1,7 +1,9 @@
 ﻿Imports Gnominos.Enums
 
 Namespace Models
+    ''' <summary>A represenation of an address for a Dominos customer.</summary>
     Public NotInheritable Class DominosAddress
+
         ''' <summary>Street address.</summary>
         Public Property StreetAddress As String
 
